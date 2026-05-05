@@ -71,7 +71,7 @@ ax.text(0.75, 5.1, "The Solution", fontsize=13, color=ACCENT2, fontweight="bold"
 bullets = [
     "🔄  One app, 3 feeds, 30 freshest articles on load",
     "🤖  Zero-shot classification into 5 tech subcategories",
-    "✨  3-bullet AI summary per article (Gemini 1.5 Flash)",
+    "✨  3-bullet AI summary per article (Llama 3.3 70B via Groq)",
 ]
 for i, b in enumerate(bullets):
     ax.text(0.75, 4.65 - i * 0.45, b, fontsize=11, color=WHITE, va="top")
@@ -83,7 +83,7 @@ ax.text(6.3, 7.15, "Tech Stack", fontsize=13, color=ACCENT, fontweight="bold")
 stack = [
     ("RSS Parsing",      "feedparser",              WHITE),
     ("Classification",   "bart-large-mnli (zero-shot)", ACCENT2),
-    ("Summarization",    "Gemini 1.5 Flash",        GREEN),
+    ("Summarization",    "Llama 3.3 70B (Groq)",    GREEN),
     ("Frontend",         "Streamlit",               "#f97316"),
     ("Caching",          "st.cache_data / resource",MUTED),
 ]
@@ -121,7 +121,7 @@ steps = [
     ("📡\nRSS Feeds",          0.9,  "#334155"),
     ("🔍\nfeedparser\nparse",   3.0,  "#334155"),
     ("🤖\nbart-large\n-mnli",   5.1,  ACCENT),
-    ("✨\nGemini 1.5\nFlash",   7.2,  "#065f46"),
+    ("✨\nLlama 3.3\n70B Groq", 7.2,  "#065f46"),
     ("🖥️\nStreamlit\nUI",       9.3,  "#334155"),
     ("👤\nUser\nReads",        11.4,  "#334155"),
 ]
