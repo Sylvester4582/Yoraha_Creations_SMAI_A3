@@ -1,0 +1,50 @@
+{
+  "metadata": {
+    "model": "facebook/bart-large-mnli",
+    "device": "CPU",
+    "eval_date": "2026-05-06",
+    "eval_set_size": 300,
+    "positive_class": "tech",
+    "negative_class": "non-tech"
+  },
+  "binary_classification": {
+    "accuracy": 0.9067,
+    "precision": 0.9122,
+    "recall": 0.9,
+    "f1": 0.906
+  },
+  "confidence": {
+    "mean_correct": 0.8806,
+    "mean_wrong": 0.7374,
+    "mean_overall": 0.8673
+  },
+  "subcategory_distribution": {
+    "Gadgets & Hardware": 67,
+    "Software & Apps": 39,
+    "General Tech": 37,
+    "Startups & Business": 5,
+    "AI & Machine Learning": 2
+  },
+  "ablation_label_phrasing": {
+    "Descriptive": {
+      "accuracy": 0.907,
+      "f1": 0.906
+    },
+    "Short": {
+      "accuracy": 0.647,
+      "f1": 0.727
+    },
+    "Hypothesis": {
+      "accuracy": 0.637,
+      "f1": 0.725
+    }
+  },
+  "latency": {
+    "rss_fetch_s": 2.158,
+    "classify_total_s": 58.936,
+    "classify_per_article_ms": 1964.53,
+    "summarize_single_s": 7.833,
+    "pipeline_page_load_s": 61.094,
+    "articles_fetched": 30
+  }
+}

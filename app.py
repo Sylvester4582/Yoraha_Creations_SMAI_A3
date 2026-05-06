@@ -7,7 +7,6 @@ from rss_fetcher import fetch_articles
 from classifier import classify_articles, CATEGORIES
 from summarizer import summarize
 
-# ── Page config (must be first Streamlit call) ────────────────────────────────
 st.set_page_config(
     page_title="Tech News Terminal · TNT",
     page_icon="📡",
@@ -15,7 +14,6 @@ st.set_page_config(
     initial_sidebar_state="collapsed",
 )
 
-# ── Terminal CSS ───────────────────────────────────────────────────────────────
 st.markdown("""
 <style>
 /* Fonts + base */
@@ -186,7 +184,6 @@ hr { border-color: #1e1e1e !important; }
 </style>
 """, unsafe_allow_html=True)
 
-# ── Constants ──────────────────────────────────────────────────────────────────
 CATEGORY_ICONS = {
     "AI & Machine Learning": "AI & ML",
     "Startups & Business":   "STARTUPS",
@@ -208,16 +205,12 @@ SOURCE_BADGE_CLASS = {
 }
 CONF_COLOR = lambda c: "#22c55e" if c > 0.8 else "#e3b341" if c > 0.6 else "#6e7681"
 
-
-# ── Data loading (cached 15 min) ───────────────────────────────────────────────
 @st.cache_data(ttl=900, show_spinner=False)
 def load_articles() -> list[dict]:
     arts = fetch_articles(max_per_feed=10)
     arts = classify_articles(arts)
     return arts
 
-
-# ── Terminal header ────────────────────────────────────────────────────────────
 st.markdown("""
 <div class="tnt-header">
   <span class="tnt-logo">TNT</span>
@@ -232,14 +225,12 @@ st.caption(
     "Summarised by **Llama 3.3 70B via Groq**"
 )
 
-# Refresh button
 col_btn, col_space = st.columns([1, 9])
 with col_btn:
     if st.button("↺  REFRESH", help="Clear cache and reload the latest articles"):
         st.cache_data.clear()
         st.rerun()
 
-# ── Load data ──────────────────────────────────────────────────────────────────
 with st.status("Fetching live RSS feeds and classifying…", expanded=False) as status:
     articles = load_articles()
     status.update(
@@ -251,7 +242,6 @@ if not articles:
     st.error("Could not fetch any articles. Check your internet connection.")
     st.stop()
 
-# ── Metrics bar ────────────────────────────────────────────────────────────────
 counts = {cat: sum(1 for a in articles if a["category"] == cat) for cat in CATEGORIES}
 avg_conf = sum(a.get("confidence", 0) for a in articles) / max(len(articles), 1)
 
@@ -262,12 +252,10 @@ metric_cols[-1].metric("AVG CONF", f"{avg_conf:.0%}")
 
 st.markdown("<hr/>", unsafe_allow_html=True)
 
-# ── Tabs ───────────────────────────────────────────────────────────────────────
 tab_labels = ["ALL  " + str(len(articles))] + [
     f"{c}  {counts[c]}" for c in CATEGORIES
 ]
 tabs = st.tabs(tab_labels)
-
 
 def render_tab(tab, article_list: list[dict]) -> None:
     with tab:
@@ -293,7 +281,6 @@ def render_tab(tab, article_list: list[dict]) -> None:
                         unsafe_allow_html=True,
                     )
 
-                    # Confidence bar
                     st.markdown(
                         f"""
                         <div class="conf-bar-wrap">
@@ -331,13 +318,10 @@ def render_tab(tab, article_list: list[dict]) -> None:
                         unsafe_allow_html=True,
                     )
 
-
-# Render all tabs
 render_tab(tabs[0], articles)
 for i, cat in enumerate(CATEGORIES):
     render_tab(tabs[i + 1], [a for a in articles if a["category"] == cat])
 
-# ── Status bar ─────────────────────────────────────────────────────────────────
 st.markdown(
     f"""
     <div class="status-bar">

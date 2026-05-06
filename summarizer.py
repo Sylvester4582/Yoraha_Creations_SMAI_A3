@@ -12,10 +12,8 @@ _PROMPT = (
     "Format your response as markdown list items:\n- Point one\n- Point two\n- Point three"
 )
 
-# Groq free tier: 30 RPM -> 2s min gap; 0.5s safety buffer
 _last_api_call: float = 0.0
 _DELAY_SECONDS: float = 2.5
-
 
 def _get_api_key() -> str:
     key = os.environ.get("GROQ_API_KEY", "")
@@ -25,7 +23,6 @@ def _get_api_key() -> str:
         return st.secrets.get("GROQ_API_KEY", "")
     except Exception:
         return ""
-
 
 @st.cache_data(ttl=3600, show_spinner=False)
 def summarize(title: str, content: str) -> str:
@@ -38,7 +35,6 @@ def summarize(title: str, content: str) -> str:
     if not content or len(content.strip()) < 40:
         return "*Not enough article content to summarize.*"
 
-    # Throttle: wait out the remainder of the rate-limit window
     elapsed = time.time() - _last_api_call
     wait = _DELAY_SECONDS - elapsed
     if _last_api_call > 0 and wait > 0:

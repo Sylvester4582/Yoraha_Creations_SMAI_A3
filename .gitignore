@@ -54,3 +54,5 @@ web/.env.local
 
 # --- Stray files ---
 =*
+Dockerfile
+

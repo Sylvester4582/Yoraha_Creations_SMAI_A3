@@ -7,16 +7,13 @@ FEEDS = {
     "YourStory": "https://yourstory.com/feed",
 }
 
-
 def _strip_html(text: str) -> str:
     return re.sub(r"<[^>]+>", " ", text).strip()
-
 
 def _get_content(entry) -> str:
     if hasattr(entry, "content") and entry.content:
         return entry.content[0].get("value", "")
     return getattr(entry, "summary", "") or ""
-
 
 def fetch_articles(max_per_feed: int = 10) -> list[dict]:
     """Fetch articles from all three RSS feeds, return newest-first, capped at 30."""
