@@ -188,11 +188,11 @@ hr { border-color: #1e1e1e !important; }
 
 # ── Constants ──────────────────────────────────────────────────────────────────
 CATEGORY_ICONS = {
-    "AI & Machine Learning": "AI",
-    "Startups & Business":   "BIZ",
-    "Gadgets & Hardware":    "HW",
-    "Software & Apps":       "SW",
-    "General Tech":          "TECH",
+    "AI & Machine Learning": "AI & ML",
+    "Startups & Business":   "STARTUPS",
+    "Gadgets & Hardware":    "HARDWARE",
+    "Software & Apps":       "SOFTWARE",
+    "General Tech":          "GENERAL",
 }
 CATEGORY_COLORS = {
     "AI & Machine Learning": "#58a6ff",
@@ -257,15 +257,14 @@ avg_conf = sum(a.get("confidence", 0) for a in articles) / max(len(articles), 1)
 
 metric_cols = st.columns(len(CATEGORIES) + 1)
 for col, (cat, count) in zip(metric_cols, counts.items()):
-    short = CATEGORY_ICONS[cat]
-    col.metric(short, count)
+    col.metric(cat, count)
 metric_cols[-1].metric("AVG CONF", f"{avg_conf:.0%}")
 
 st.markdown("<hr/>", unsafe_allow_html=True)
 
 # ── Tabs ───────────────────────────────────────────────────────────────────────
 tab_labels = ["ALL  " + str(len(articles))] + [
-    f"{CATEGORY_ICONS[c]}  {counts[c]}" for c in CATEGORIES
+    f"{c}  {counts[c]}" for c in CATEGORIES
 ]
 tabs = st.tabs(tab_labels)
 
@@ -282,7 +281,7 @@ def render_tab(tab, article_list: list[dict]) -> None:
             src_class = SOURCE_BADGE_CLASS.get(art["source"], "badge-tc")
             conf_color = CONF_COLOR(conf)
             conf_pct = int(conf * 100)
-            cat_short = CATEGORY_ICONS.get(art["category"], "TECH")
+            cat_short = art["category"]
 
             with st.container(border=True):
                 title_col, meta_col = st.columns([8, 2])
