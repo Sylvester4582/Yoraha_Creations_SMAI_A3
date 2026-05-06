@@ -1,6 +1,8 @@
 # Tech News Tracker — T9.3
 ### SMAI Assignment 3 · Tier 1 · IIIT Hyderabad · 2025–26
-**Creator:** Vidvathama R · Yoraha Creations
+**Team Name:** Yoraha Creations
+
+**Creator:** Vidvathama R (2024122002) · Snehil Sanjog (2023102051) · Sarvesh Takbhate (2023102039)
 
 **Live Demo:** https://huggingface.co/spaces/SylvesterSsj/tech-news-terminal  
 **GitHub:** https://github.com/Sylvester4582/Yoraha_Creations_SMAI_A3
@@ -55,7 +57,29 @@ Streamlit UI → category tabs + article cards
 
 ### 3.2 Zero-Shot Classification
 
-We use `facebook/bart-large-mnli` (406M parameters), a sequence-to-sequence model fine-tuned on the Multi-Genre NLI corpus. Given an article text and a set of candidate labels, it estimates the probability that each label is *entailed* by the text.
+**How zero-shot classification works:**
+
+Traditional text classifiers require labelled training data for every category they must predict. Zero-shot classification removes this requirement by repurposing a Natural Language Inference (NLI) model. NLI models are trained to determine whether a *hypothesis* sentence is entailed by, contradicted by, or neutral to a *premise* sentence.
+
+To classify an article into a category, we reformulate the problem as an NLI task:
+
+```
+Premise:    "Apple launches new M4 chip for MacBook Pro lineup."
+Hypothesis: "This text is about consumer electronics, gadgets, chips, or hardware devices."
+```
+
+The model outputs an entailment probability for each candidate hypothesis. The label whose hypothesis receives the highest entailment score becomes the predicted category — with no task-specific training required.
+
+```text
+Article text  ──┐
+                ├──► BART-MNLI ──► P(entailment | label_i)  for each label i
+Label phrase  ──┘                         ↓
+                                   argmax → predicted category
+```
+
+This works because BART-MNLI was fine-tuned on MultiNLI (433k sentence pairs spanning 10 genres), giving it a strong prior over semantic relationships between arbitrary text pairs. The model generalises to unseen label sets at inference time.
+
+We use `facebook/bart-large-mnli` (406M parameters). Given an article text and a set of candidate labels, it estimates the probability that each label is *entailed* by the text.
 
 **Candidate labels (5-way subcategory):**
 

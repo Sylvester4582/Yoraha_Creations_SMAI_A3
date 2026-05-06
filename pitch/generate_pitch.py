@@ -150,7 +150,7 @@ for x in [2.75, 4.9, 7.05, 9.2, 11.35]:
 # ── Footer ────────────────────────────────────────────────────────────────────
 hline(0.4, 0.28, 15.2, color=DIM, lw=1)
 ax.text(0.4, 0.14,
-        "Vidvathama R  ·  Snehil Sanjog (2023102051)  ·  Sarvesh Takbhate (2023102039)",
+        "Vidvathama R (2024122002)  ·  Snehil Sanjog (2023102051)  ·  Sarvesh Takbhate (2023102039)",
         va="center", fontsize=8.5, color=MUTED, fontfamily="monospace")
 ax.text(15.6, 0.14,
         "huggingface.co/spaces/SylvesterSsj/tech-news-terminal",
