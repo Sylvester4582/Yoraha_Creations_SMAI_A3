@@ -3,9 +3,8 @@ title: Tech News Terminal · T9.3
 emoji: 📡
 colorFrom: green
 colorTo: orange
-sdk: streamlit
-sdk_version: "1.38.0"
-app_file: app.py
+sdk: docker
+app_port: 8501
 pinned: false
 license: mit
 short_description: Live tech news — zero-shot classified & AI-summarised
