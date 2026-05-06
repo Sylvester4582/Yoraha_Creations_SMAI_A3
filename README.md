@@ -2,7 +2,7 @@
 title: Tech News Terminal · T9.3
 emoji: 📡
 colorFrom: green
-colorTo: orange
+colorTo: red
 sdk: docker
 app_port: 8501
 pinned: false
