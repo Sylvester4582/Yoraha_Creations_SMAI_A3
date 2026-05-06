@@ -6,6 +6,8 @@ A Bloomberg-terminal-styled Streamlit app that fetches the **30 latest tech head
 
 **Live demo:** [https://huggingface.co/spaces/SylvesterSsj/tech-news-terminal](https://huggingface.co/spaces/SylvesterSsj/tech-news-terminal)
 
+![Pitch Slide](pitch_slide.png)
+
 ---
 
 ## Stack
@@ -48,6 +50,8 @@ streamlit run app.py
 
 App opens at `http://localhost:8501`.
 
+![UI Screenshot](Outputs/UI_Screenshot.png)
+
 ---
 
 ## Architecture
@@ -89,13 +93,3 @@ notebooks/
 Offline evaluation filters tech-related headlines from the [India Headlines News Dataset](https://www.kaggle.com/datasets/therohk/india-headlines-news-dataset) and measures zero-shot classification accuracy against manual labels. See `notebooks/evaluation.ipynb`.
 
 ---
-
-## Assignment Info
-
-- **Course:** SMAI (Statistical Methods in AI) · Semester VI · IIIT Hyderabad
-- **Assignment:** A3 · Task T9.3 — Tech News Tracker (Tier 1)
-- **Creator:** Vidvathama R · Yoraha Creations
-
-## LLM Disclosure
-
-Code scaffolding assisted by **Claude (Anthropic)**. All evaluation, analysis, and final integration are original work. Groq / Llama 3.3 70B is used at runtime for article summarisation.
