@@ -1,19 +1,34 @@
-# 📡 Tech News Tracker — SMAI A3 · T9.3
+---
+title: Tech News Terminal · T9.3
+emoji: 📡
+colorFrom: green
+colorTo: orange
+sdk: streamlit
+sdk_version: "1.38.0"
+app_file: app.py
+pinned: false
+license: mit
+short_description: Live tech news — zero-shot classified & AI-summarised
+---
 
-> **Tier 1** · Live RSS tech news, zero-shot classified, LLM-summarized.
+# 📡 Tech News Terminal — SMAI A3 · T9.3
 
-A Streamlit web app that fetches the **30 latest tech headlines** from TechCrunch, The Verge, and YourStory, classifies them into subcategories using `facebook/bart-large-mnli`, and generates 3-bullet summaries with **Gemini 1.5 Flash**.
+> **Tier 1** · Live RSS tech news, zero-shot classified, LLM-summarised.
+
+A Bloomberg-terminal-styled Streamlit app that fetches the **30 latest tech headlines** from TechCrunch, The Verge, and YourStory, classifies them into subcategories using `facebook/bart-large-mnli`, and generates 3-bullet summaries with **Llama 3.3 70B via Groq**.
 
 ---
 
-## Demo
+## Live Demo
+
+Deploy to [Hugging Face Spaces](https://huggingface.co/spaces) — see deployment section below.
 
 | Component | Tool |
-| --- | --- |
+|---|---|
 | RSS Parsing | `feedparser` |
 | Zero-shot Classification | `facebook/bart-large-mnli` |
-| Summarization | Gemini 1.5 Flash API |
-| Frontend | Streamlit |
+| Summarisation | Groq — llama-3.3-70b-versatile |
+| Frontend | Streamlit (dark terminal theme) |
 | Caching | `@st.cache_data` (15 min feed TTL, 1 hr summary TTL) |
 
 ---
@@ -28,12 +43,18 @@ cd Yoraha_Creations_SMAI_A3
 pip install -r requirements.txt
 ```
 
-### 2. Configure Gemini API key
+### 2. Add your Groq API key
 
 ```bash
-cp .env.example .env
-# Open .env and paste your key from https://aistudio.google.com/app/apikey
+cp .env.example .env   # or create .env manually
 ```
+
+Open `.env` and add:
+```
+GROQ_API_KEY=gsk_your_key_here
+```
+
+Get a **free** key at https://console.groq.com (no credit card needed).
 
 ### 3. Run
 
@@ -45,42 +66,55 @@ App opens at `http://localhost:8501`.
 
 ---
 
+## Deploying to Hugging Face Spaces
+
+1. Go to https://huggingface.co/new-space
+2. Choose **Streamlit** as the SDK
+3. Set the Space name (e.g. `tech-news-terminal`)
+4. Connect your GitHub repo **or** upload these files directly:
+   - `app.py`
+   - `rss_fetcher.py`
+   - `classifier.py`
+   - `summariser.py`
+   - `requirements.txt`
+   - `README.md` ← this file (frontmatter tells HF it's a Streamlit Space)
+   - `.streamlit/config.toml`
+5. In the Space **Settings → Repository secrets**, add:
+   - Name: `GROQ_API_KEY`  Value: `gsk_your_key_here`
+6. Click **Deploy** — the Space will build and go live automatically
+
+> The first boot takes 2–3 minutes while `facebook/bart-large-mnli` (~1.6 GB) downloads. Subsequent loads use the cached model.
+
+---
+
 ## Architecture
 
 ```text
 app.py              ← Streamlit UI, caching orchestration
 rss_fetcher.py      ← Parses TechCrunch, The Verge, YourStory RSS feeds
 classifier.py       ← Batched zero-shot classification (bart-large-mnli)
-summarizer.py       ← Gemini 1.5 Flash 3-bullet summaries (cached)
+summarizer.py       ← Llama 3.3 70B via Groq (3-bullet summaries, cached 1hr)
+.streamlit/
+  config.toml       ← Dark Bloomberg terminal theme
 ```
 
 ### Caching strategy
 
 | Cache | Scope | TTL |
-| --- | --- | --- |
+|---|---|---|
 | `@st.cache_resource` | bart-large-mnli model | lifetime of app process |
 | `@st.cache_data` | fetch + classify pipeline | 15 minutes |
-| `@st.cache_data` | per-article Gemini summary | 1 hour |
+| `@st.cache_data` | per-article Groq summary | 1 hour |
 
 ### Classification categories
 
-- 🤖 AI & Machine Learning
-- 💼 Startups & Business
-- 📱 Gadgets & Hardware
-- 💻 Software & Apps
-- 📰 General Tech
-
----
-
-## Running on Google Colab (T4 GPU)
-
-```python
-!pip install -r requirements.txt
-!streamlit run app.py &
-# Expose via ngrok or use Colab port forwarding
-```
-
-GPU is auto-detected — classification batch runs ~10× faster on T4 vs CPU.
+| Short | Full Name |
+|---|---|
+| AI | AI & Machine Learning |
+| BIZ | Startups & Business |
+| HW | Gadgets & Hardware |
+| SW | Software & Apps |
+| TECH | General Tech |
 
 ---
 
@@ -89,10 +123,17 @@ GPU is auto-detected — classification batch runs ~10× faster on T4 vs CPU.
 Offline evaluation filters tech-related headlines from the
 [India Headlines News Dataset](https://www.kaggle.com/datasets/therohk/india-headlines-news-dataset)
 and measures zero-shot classification accuracy against manual labels.
+See `notebooks/evaluation.ipynb`.
 
 ---
+
+## Assignment Info
+
+- **Course:** SMAI (Statistical Methods in AI) · Semester VI · IIIT Hyderabad
+- **Assignment:** A3 · Task T9.3 — Tech News Tracker (Tier 1)
+- **Creator:** Vidvathama R · Yoraha Creations
 
 ## LLM Disclosure
 
 Code scaffolding assisted by **Claude (Anthropic)**. All evaluation, analysis, and final
-integration are our own work. Gemini 1.5 Flash is used at runtime for article summarization.
+integration are original work. Groq / Llama 3.3 70B is used at runtime for article summarisation.

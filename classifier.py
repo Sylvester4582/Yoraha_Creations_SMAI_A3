@@ -47,4 +47,5 @@ def classify_articles(articles: list[dict]) -> list[dict]:
     _hyp_to_display = dict(zip(_HYPOTHESIS_LABELS, CATEGORIES))
     for article, result in zip(articles, results):
         article["category"] = _hyp_to_display[result["labels"][0]]
+        article["confidence"] = round(float(result["scores"][0]), 3)
     return articles
