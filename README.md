@@ -1,16 +1,4 @@
----
-title: Tech News Terminal · T9.3
-emoji: 📡
-colorFrom: green
-colorTo: red
-sdk: docker
-app_port: 8501
-pinned: false
-license: mit
-short_description: Live tech news — zero-shot classified & AI-summarised
----
-
-## Tech News Terminal — SMAI A3 · T9.3
+# Tech News Terminal — SMAI A3 · T9.3
 
 > **Tier 1** · Live RSS tech news, zero-shot classified, LLM-summarised.
 
